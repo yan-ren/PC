@@ -1,18 +1,52 @@
 package q1;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 public class Matrix {
-	public static void main(String[] args) {
-		// test getColumn
-		 double[][] a = new double[][] {
-             {3, -1, 2},
-             {2,  0, 1},
-             {1,  2, 1}
-		 };
-		 System.out.println(printArray(getColumn(a, 0)));
-		 System.out.println(printArray(getColumn(a, 1)));
-		 System.out.println(printArray(getColumn(a, 2)));
+	
+	public static final int THREADS = 10;
+	
+	public static void main(String[] args) throws InterruptedException {
+		// test matrix
+//		 double[][] a = new double[][] {
+//             {3, -1, 2},
+//             {2,  0, 1},
+//             {1,  2, 1}
+//		 };
+//		 
+//		 double[][] b = new double[][] {
+//             {2, -1, 1},
+//             {0, -2, 3},
+//             {3,  0, 1}
+//		 };
+		
+		 double[][] a = new double[200][200];
+		 double[][] b = new double[200][200];
+		 long startTime;
+		 long endTime;
+		 long totalTime;
+		 double[][] res;
+//		 startTime= System.currentTimeMillis();
+//		 res = sequentialMultiplyMatrix(a, b);
+//		 endTime = System.currentTimeMillis();
+//		 totalTime= endTime - startTime;
+////		 System.out.println(printMatrix(res));
+//		 System.out.println(totalTime);
+//		 System.out.println("#########################");
+		 
+		 startTime= System.currentTimeMillis();
+		 res = parallelMultiplyMatrix(a, b);
+		 endTime = System.currentTimeMillis();
+		 totalTime= endTime - startTime;
+//		 System.out.println(printMatrix(res));
+		 System.out.println(totalTime);
+		 
+//		 System.out.println(printArray(getColumn(a, 0)));
+//		 System.out.println(printArray(getColumn(a, 1)));
+//		 System.out.println(printArray(getColumn(a, 2)));
 		 
 	}
 
@@ -29,6 +63,35 @@ public class Matrix {
 				result[i][j] += multiplyAndSumTwoArrays(a[i], getColumn(b, j));
 			}
 		}
+		return result;
+	}
+	
+	public static double[][] parallelMultiplyMatrix(double[][] a, double[][] b) throws InterruptedException{
+		ExecutorService executorService = Executors.newFixedThreadPool(THREADS);
+		int aColNum = a[0].length;
+		int bRomNum = b.length;
+		if (aColNum != bRomNum) // check if satisfy matrix multiply condition
+			return null;
+		int resultRowNum = a.length;
+		int resultColNum = b[0].length;
+		double[][] result = new double[resultRowNum][resultColNum];
+		
+		for (int i = 0; i < resultRowNum; i++) { // rows from m1
+			for (int j = 0; j < resultColNum; j++) { // columns from m2
+				final int row = i;
+				final int col = j;
+				
+				executorService.submit(new Runnable() {
+					public void run() {
+//						System.out.println("running..");
+						result[row][col] += multiplyAndSumTwoArrays(a[row], getColumn(b, col));
+//						System.out.println("finished..");
+					}
+				});				
+			}
+		}
+		executorService.shutdown();
+		executorService.awaitTermination(1, TimeUnit.DAYS);
 		return result;
 	}
 
