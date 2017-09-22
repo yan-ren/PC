@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 
 public class Matrix {
 	
-	public static final int THREADS = 10;
+	public static final int THREADS = 6;
 	
 	public static void main(String[] args) throws InterruptedException {
 		// test matrix
@@ -23,12 +23,13 @@ public class Matrix {
 //             {3,  0, 1}
 //		 };
 		
-		 double[][] a = new double[200][200];
-		 double[][] b = new double[200][200];
+		 double[][] a = new double[2000][2000];
+		 double[][] b = new double[2000][2000];
 		 long startTime;
 		 long endTime;
 		 long totalTime;
 		 double[][] res;
+		 
 //		 startTime= System.currentTimeMillis();
 //		 res = sequentialMultiplyMatrix(a, b);
 //		 endTime = System.currentTimeMillis();

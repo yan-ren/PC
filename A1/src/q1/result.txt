@@ -1,0 +1,17 @@
+1.3 
+2000x2000 matrix
+sequential 182035ms
+parallel 10 threads 103836ms
+
+1.4
+thread	time(ms)
+1	214315
+2	145893
+3	116248
+4	95428
+5	132926
+6	178359
+7
+8
+9
+10
