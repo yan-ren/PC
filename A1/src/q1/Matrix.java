@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 
 public class Matrix {
 	
-	public static final int THREADS = 6;
+	public static final int THREADS = 4;
 	
 	public static void main(String[] args) throws InterruptedException {
 		// test matrix
@@ -22,9 +22,9 @@ public class Matrix {
 //             {0, -2, 3},
 //             {3,  0, 1}
 //		 };
-		
-		 double[][] a = new double[2000][2000];
-		 double[][] b = new double[2000][2000];
+		int size = 2000;
+		 double[][] a = new double[size][size];
+		 double[][] b = new double[size][size];
 		 long startTime;
 		 long endTime;
 		 long totalTime;
