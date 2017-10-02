@@ -41,7 +41,7 @@ class Philosophers extends Thread{
         }
     }
 }
-
+//
 class Fork{
     /*5只筷子，初始为都未被用*/
     private boolean[] used={false,false,false,false,false,false};
