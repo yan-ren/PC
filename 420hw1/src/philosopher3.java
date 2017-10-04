@@ -74,7 +74,7 @@ class Fork{
 }
 
 //测试
-public class philosopher {
+public class philosopher3 {
 
     public static void main(String []args){
         Fork fork = new Fork();
