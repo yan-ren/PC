@@ -10,44 +10,28 @@ public class Matrix {
 	public static final int THREADS = 4;
 	
 	public static void main(String[] args) throws InterruptedException {
-		// test matrix
-//		 double[][] a = new double[][] {
-//             {3, -1, 2},
-//             {2,  0, 1},
-//             {1,  2, 1}
-//		 };
-//		 
-//		 double[][] b = new double[][] {
-//             {2, -1, 1},
-//             {0, -2, 3},
-//             {3,  0, 1}
-//		 };
-		int size = 2000;
-		 double[][] a = new double[size][size];
-		 double[][] b = new double[size][size];
-		 long startTime;
-		 long endTime;
-		 long totalTime;
-		 double[][] res;
-		 
+
+		int size = 2200;
+		double[][] a = new double[size][size];
+		double[][] b = new double[size][size];
+		long startTime;
+		long endTime;
+		long totalTime;
+		double[][] res;
+
 //		 startTime= System.currentTimeMillis();
 //		 res = sequentialMultiplyMatrix(a, b);
 //		 endTime = System.currentTimeMillis();
 //		 totalTime= endTime - startTime;
-////		 System.out.println(printMatrix(res));
 //		 System.out.println(totalTime);
 //		 System.out.println("#########################");
-		 
+
 		 startTime= System.currentTimeMillis();
 		 res = parallelMultiplyMatrix(a, b);
 		 endTime = System.currentTimeMillis();
 		 totalTime= endTime - startTime;
 //		 System.out.println(printMatrix(res));
 		 System.out.println(totalTime);
-		 
-//		 System.out.println(printArray(getColumn(a, 0)));
-//		 System.out.println(printArray(getColumn(a, 1)));
-//		 System.out.println(printArray(getColumn(a, 2)));
 		 
 	}
 
