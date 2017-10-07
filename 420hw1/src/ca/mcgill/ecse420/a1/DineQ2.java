@@ -1,6 +1,6 @@
+package ca.mcgill.ecse420.a1;
 import java.util.concurrent.Semaphore;
 
-/*每个哲学家相当于一个线程*/
 class Philosophers2 implements Runnable{
     private String name;
     private Chopstick leftChopistick;
@@ -25,24 +25,20 @@ class Philosophers2 implements Runnable{
         
     }
     
-    
     public void eating(){
         System.out.println(name + " is eating");
         try {
-            Thread.sleep(1000);//模拟吃饭，占用一段时间资源
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
     
-    
     public void thinking(){
         System.out.println(name + " is thinking");
         try {
-            Thread.sleep(1000);//模拟思考
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -52,15 +48,12 @@ class Chopstick{
 
 	final Semaphore mutex = new Semaphore(1);
 
-	public Chopstick(){
-	}
-	
+	public Chopstick(){}
 
 	public void pickUp() {
 		try {
 			this.mutex.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		};
 	}
@@ -69,8 +62,8 @@ class Chopstick{
 	}
 }
 
-//测试
-public class Q2 {
+//Test for dining philosopher question2
+public class DineQ2 {
 
     public static void main(String []args){
  

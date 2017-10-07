@@ -1,5 +1,7 @@
-public class philosopher1 {
- 
+package ca.mcgill.ecse420.a1;
+public class DineQ1 {
+	
+	//Test for dining philosopher question1
     public static void main(String[] args) throws Exception {
  
         Philosopher[] philosophers = new Philosopher[5];
@@ -34,7 +36,7 @@ class Philosopher implements Runnable {
     public void run() {
     	try {
             while (true) {
-                 
+          
                 // thinking
             	System.out.println(Thread.currentThread().getName() + ": thinking");
             	Thread.sleep(1000);

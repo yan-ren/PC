@@ -1,3 +1,4 @@
+package ca.mcgill.ecse420.a1;
 public class philosopher2 {
  
     public static void main(String[] args) throws Exception {

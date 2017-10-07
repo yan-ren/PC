@@ -1,3 +1,4 @@
+package ca.mcgill.ecse420.a1;
 /*每个哲学家相当于一个线程*/
 class Philosophers extends Thread{
     private String name;
