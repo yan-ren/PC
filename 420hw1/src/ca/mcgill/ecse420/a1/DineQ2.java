@@ -46,7 +46,7 @@ class Philosophers2 implements Runnable{
 
 class Chopstick{
 
-	final Semaphore mutex = new Semaphore(1);
+	final Semaphore mutex = new Semaphore(1, true);
 
 	public Chopstick(){}
 
