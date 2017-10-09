@@ -1,12 +1,12 @@
 package ca.mcgill.ecse420.a1;
 import java.util.concurrent.Semaphore;
 
-class Philosophers2 implements Runnable{
+class Philosophers4 implements Runnable{
     private String name;
     private Chopstick leftChopistick;
     private Chopstick rightChopistick;
     
-    public Philosophers2(String name, Chopstick leftChopistick, Chopstick rightChopistick){
+    public Philosophers4(String name, Chopstick leftChopistick, Chopstick rightChopistick){
         this.name=name;
         this.leftChopistick=leftChopistick;
         this.rightChopistick=rightChopistick;
@@ -44,11 +44,11 @@ class Philosophers2 implements Runnable{
     }
 }
 
-class Chopstick{
+class Chopstick4{
 
-	final Semaphore mutex = new Semaphore(1, true);// fair semaphore
+	final Semaphore mutex = new Semaphore(1, true);
 
-	public Chopstick(){}
+	public Chopstick4(){}
 
 	public void pickUp() {
 		try {
@@ -62,30 +62,33 @@ class Chopstick{
 	}
 }
 
-//Test for dining philosopher question2, 3
-public class DineQ2 {
+//Test for dining philosopher question4
+public class DineQ4 {
 
-    public static void main(String []args){
+	final static int NUMBER = 6;
+    
+	public static void main(String []args){
+    	
  
-        Philosophers2[] philosophers2 = new Philosophers2[5];
-        Chopstick[] chopsticks = new Chopstick[5];
+        Philosophers4[] philosophers4 = new Philosophers4[NUMBER];
+        Chopstick[] chopsticks = new Chopstick[NUMBER];
  
-        for (int i=0; i<5; i++) {
+        for (int i=0; i<NUMBER; i++) {
         	chopsticks[i] = new Chopstick();
         }
  
-        for (int i=0; i<5; i++) {
+        for (int i=0; i<NUMBER; i++) {
         	Chopstick left = chopsticks[i];
-        	Chopstick right = chopsticks[(i+1) % 5];
+        	Chopstick right = chopsticks[(i+1) % NUMBER];
             
-        	if (i == philosophers2.length - 1) {
+        	if (i == philosophers4.length - 1) {
                 // The last philosopher picks up the right fork first
-        		philosophers2[i] = new Philosophers2(Integer.toString(i), right, left); 
+        		philosophers4[i] = new Philosophers4(Integer.toString(i), right, left); 
             } else {
-            	philosophers2[i] = new Philosophers2(Integer.toString(i), left, right);
+            	philosophers4[i] = new Philosophers4(Integer.toString(i), left, right);
             }
         	
-            Thread t = new Thread(philosophers2[i], "Philosopher " + (i+1));
+            Thread t = new Thread(philosophers4[i], "Philosopher " + (i+1));
             t.start();
         }
     }
