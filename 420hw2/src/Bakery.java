@@ -3,9 +3,9 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
 class Bakery implements Lock {
-	int n;
-	volatile boolean[] flag;
-	volatile int[] label;
+	private int n;
+	private volatile boolean[] flag;
+	private volatile int[] label;
 
 	public Bakery(int n) {
 		this.n = n;
@@ -28,7 +28,7 @@ class Bakery implements Lock {
 		label[i]++;
 
 		for (int j = 0; j < n; j++) {
-			while (flag[j] && (j != i) && (label[j] < label[i]) || ((label[j] == label[i]) && j < i));
+			while (flag[j] && (j != i) && (label[j] < label[i]) || ((label[j] == label[i]) && j < i)) {};
 		}
 	}
 

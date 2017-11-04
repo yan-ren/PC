@@ -4,7 +4,7 @@ import java.util.concurrent.locks.Lock;
 
 public class Test {
 	
-	private static int threads = 100;
+	private static int threads = 80;
 	private static Account account = new Account(threads);
 
 	public static void main(String[] args) {
@@ -37,7 +37,9 @@ public class Test {
 		private int balance = 0;
 
 		public Account(int threads) {
-			lock = new Filter(threads);
+			// uncomment one for testing different locks
+			lock = new Bakery(threads);
+//			lock = new Filter(threads);
 		}
 		
 		public int getBalance() {
