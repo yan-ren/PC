@@ -1,3 +1,4 @@
+package ca.mcgill.ecse420.a2;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;

@@ -1,3 +1,4 @@
+package ca.mcgill.ecse420.a2;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
@@ -38,8 +39,8 @@ public class Test {
 
 		public Account(int threads) {
 			// uncomment one for testing different locks
-			lock = new Bakery(threads);
-//			lock = new Filter(threads);
+//			lock = new Bakery(threads);
+			lock = new Filter(threads);
 		}
 		
 		public int getBalance() {
