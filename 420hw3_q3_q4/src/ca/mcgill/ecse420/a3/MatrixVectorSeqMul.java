@@ -1,13 +1,8 @@
 package ca.mcgill.ecse420.a3;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-public class MatrixVectorMul {
-
-	public static final int THREADS = 4;// number of threads used for parallel multiplication
+public class MatrixVectorSeqMul {
 
 	public static void main(String[] args) throws InterruptedException {
 
@@ -58,34 +53,6 @@ public class MatrixVectorMul {
 				result[i][j] += multiplyAndSumTwoArrays(a[i], getColumn(b, j));
 			}
 		}
-		return result;
-	}
-
-	public static double[][] parallelMultiplyMatrix(double[][] a, double[][] b) throws InterruptedException {
-		ExecutorService executorService = Executors.newFixedThreadPool(THREADS);
-		int aColNum = a[0].length;
-		int bRomNum = b.length;
-		if (aColNum != bRomNum) // check if matrix multiply condition
-			return null;
-		int resultRowNum = a.length;
-		int resultColNum = b[0].length;
-		double[][] result = new double[resultRowNum][resultColNum];
-
-		for (int i = 0; i < resultRowNum; i++) { // rows from m1
-			for (int j = 0; j < resultColNum; j++) { // columns from m2
-				final int row = i;
-				final int col = j;
-
-				executorService.submit(new Runnable() {
-					public void run() {
-						result[row][col] += multiplyAndSumTwoArrays(a[row], getColumn(b, col));// for each row*column,
-																								// creates a thread
-					}
-				});
-			}
-		}
-		executorService.shutdown();
-		executorService.awaitTermination(1, TimeUnit.DAYS);
 		return result;
 	}
 
