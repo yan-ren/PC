@@ -6,38 +6,25 @@ public class MatrixVectorSeqMul {
 
 	public static void main(String[] args) throws InterruptedException {
 
-		// int size = 2000; /*
-		// * This is for define the size of two matrix for multiplication, in this
-		// * question we assume matrix are square matrix and with all 0s
-		// */
-		// double[][] a = new double[size][size];
-		// double[][] b = new double[size][1];// Two matrix for multiplication
-		// long startTime;
-		// long endTime;
-		// long totalTime;
-		// double[][] res;
+		 int size = 2000; /*
+		 * This is for define the size of two matrix for multiplication, in this
+		 * question we assume matrix are square matrix and with all 0s
+		 */
+		 double[][] a = new double[size][size];
+		 double[][] b = new double[size][1];// Two matrix for multiplication
+		 long startTime;
+		 long endTime;
+		 long totalTime;
+		 double[][] res;
 
-		// startTime = System.currentTimeMillis(); // Save the time stamp before
-		// multiplication starts
-		// res = sequentialMultiplyMatrix(a, b);
-		// endTime = System.currentTimeMillis(); // Save the time stamp when
-		// multiplication finishes
-		// totalTime = endTime - startTime; // Subtract for total runtime
-		// System.out.println("Sequential multiplication runtime: " + totalTime);
-		//
-		// startTime = System.currentTimeMillis();
-		// res = parallelMultiplyMatrix(a, b);
-		// endTime = System.currentTimeMillis();
-		// totalTime = endTime - startTime;
-		// System.out.println("Parallel multiplication runtime: " + totalTime);
+		 startTime = System.currentTimeMillis(); // Save the time stamp before
+//		 multiplication starts
+		 res = sequentialMultiplyMatrix(a, b);
+		 endTime = System.currentTimeMillis(); // Save the time stamp when
+//		 multiplication finishes
+		 totalTime = endTime - startTime; // Subtract for total runtime
+		 System.out.println("Sequential multiplication runtime: " + totalTime);
 
-		double a[][] = { { 1, 2, -2 }, { -3, 4, 7 }, { 6, 0, 3 } };
-		double b[][] = { { -1 }, { 0 }, { 1 } };
-		System.out.println(printMatrix(a));
-		System.out.println(printMatrix(b));
-
-		double[][] res = sequentialMultiplyMatrix(a, b);
-		System.out.println(printMatrix(res));
 	}
 
 	public static double[][] sequentialMultiplyMatrix(double[][] a, double[][] b) {
