@@ -10,33 +10,34 @@ import java.util.concurrent.TimeUnit;
 public class MatrixTask {
 	public static final int THREADS = 4; // number of core threads used for
 											// parallel multiplication
-	// static ExecutorService exec = Executors.newFixedThreadPool(THREADS);
-	static ExecutorService exec = Executors.newCachedThreadPool();
-	static ThreadPoolExecutor pool = (ThreadPoolExecutor) exec;
+//	 static ExecutorService exec = Executors.newFixedThreadPool(THREADS);
+	static ExecutorService exec1 = Executors.newCachedThreadPool();
+	static ThreadPoolExecutor pool = (ThreadPoolExecutor) exec1;
 
 	public static void main(String[] args) throws InterruptedException, ExecutionException {
 		pool.setCorePoolSize(THREADS);
 
-		int dim = 200;
+		int dim = 2000;
 		long startTime;
 		long endTime;
 
 		Matrix myA = new Matrix(dim);
 		Vector myB = new Vector(dim);
 		Vector myC = new Vector(dim);
-
+		MulTask mul = new MulTask(myA, myB, myC);
+		
 		startTime = System.currentTimeMillis();
-		Future<?> future = exec.submit(new MulTask(myA, myB, myC));
+		Future<?> future = exec1.submit(mul);
 		future.get();
-		exec.shutdown();
-		exec.awaitTermination(1, TimeUnit.DAYS);
-
 		endTime = System.currentTimeMillis();
+
+		exec1.shutdown();
+		exec1.awaitTermination(1, TimeUnit.DAYS);
 
 		System.out.println("time: " + (endTime - startTime));
 
 		// test_vector_parallel_addition();
-		// test_matrix_vector_parallel_multiplication();
+//		 test_matrix_vector_parallel_multiplication();
 
 		System.out.println("Largest number of simultaneous executions: " + pool.getLargestPoolSize());
 		System.out.println("Total number of threads ever scheduled: " + pool.getTaskCount());
@@ -55,10 +56,10 @@ public class MatrixTask {
 		myA.data = a;
 		myB.data = b;
 
-		Future<?> future = exec.submit(new MulTask(myA, myB, myC));
+		Future<?> future = exec1.submit(new MulTask(myA, myB, myC));
 		future.get();
-		exec.shutdown();
-		exec.awaitTermination(1, TimeUnit.DAYS);
+		exec1.shutdown();
+		exec1.awaitTermination(1, TimeUnit.DAYS);
 
 		System.out.println("matrix A: \n" + printMatrix(myA.data));
 		System.out.println("vector B: \n" + printVector(myB.data));
@@ -79,10 +80,10 @@ public class MatrixTask {
 		myA.data = a;
 		myB.data = b;
 
-		Future<?> future = exec.submit(new AddTask(myA, myB, myC));
+		Future<?> future = exec1.submit(new AddTask(myA, myB, myC));
 		future.get();
-		exec.shutdown();
-		exec.awaitTermination(1, TimeUnit.DAYS);
+		exec1.shutdown();
+		exec1.awaitTermination(1, TimeUnit.DAYS);
 
 		System.out.println("vector A: \n" + printVector(myA.data));
 		System.out.println("vector B: \n" + printVector(myB.data));
@@ -92,7 +93,9 @@ public class MatrixTask {
 
 	static class AddTask implements Runnable {
 		Vector a, b, c;
-
+		Future<?>[] future = (Future<?>[]) new Future[2];
+		Vector[] aa, bb, cc;
+		
 		public AddTask(Vector myA, Vector myB, Vector myC) {
 			a = myA;
 			b = myB;
@@ -105,10 +108,9 @@ public class MatrixTask {
 				if (n == 1) {
 					c.set(0, a.get(0) + b.get(0));
 				} else {
-					Vector[] aa = a.split(), bb = b.split(), cc = c.split();
-					Future<?>[] future = (Future<?>[]) new Future[2];
+					aa = a.split(); bb = b.split(); cc = c.split();
 					for (int i = 0; i < 2; i++)
-						future[i] = exec.submit(new AddTask(aa[i], bb[i], cc[i]));
+						future[i] = exec1.submit(new AddTask(aa[i], bb[i], cc[i]));
 					for (int i = 0; i < 2; i++)
 						future[i].get();
 				}
@@ -121,6 +123,9 @@ public class MatrixTask {
 	static class MulTask implements Runnable {
 		Matrix a;
 		Vector b, c, lhs, rhs;
+		Future<?>[][] future = (Future<?>[][]) new Future[2][2];
+		Matrix[][] aa;
+		Vector[] bb, ll, rr;
 
 		public MulTask(Matrix myA, Vector myB, Vector myC) {
 			a = myA;
@@ -135,18 +140,18 @@ public class MatrixTask {
 				if (a.getDim() == 1) {
 					c.set(0, a.get(0, 0) * b.get(0));
 				} else {
-					Matrix[][] aa = a.split();
-					Vector[] bb = b.split();
-					Vector[] ll = lhs.split(), rr = rhs.split();
-					Future<?>[][] future = (Future<?>[][]) new Future[2][2];
+					aa = a.split();
+					bb = b.split();
+					ll = lhs.split();
+					rr = rhs.split();
 					for (int i = 0; i < 2; i++) {
-						future[i][0] = exec.submit(new MulTask(aa[i][0], bb[0], ll[i]));
-						future[i][1] = exec.submit(new MulTask(aa[i][1], bb[1], rr[i]));
+						future[i][0] = exec1.submit(new MulTask(aa[i][0], bb[0], ll[i]));
+						future[i][1] = exec1.submit(new MulTask(aa[i][1], bb[1], rr[i]));
 					}
 					for (int i = 0; i < 2; i++)
 						for (int k = 0; k < 2; k++)
 							future[i][k].get();
-					Future<?> done = exec.submit(new AddTask(lhs, rhs, c));
+					Future<?> done = exec1.submit(new AddTask(lhs, rhs, c));
 					done.get();
 				}
 			} catch (Exception ex) {

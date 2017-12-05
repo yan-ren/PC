@@ -10,18 +10,17 @@ public class MatrixVectorSeqMul {
 		 * This is for define the size of two matrix for multiplication, in this
 		 * question we assume matrix are square matrix and with all 0s
 		 */
-		 double[][] a = new double[size][size];
-		 double[][] b = new double[size][1];// Two matrix for multiplication
 		 long startTime;
 		 long endTime;
 		 long totalTime;
+		 double[][] a = new double[size][size];
+		 double[][] b = new double[size][1];// Two matrix for multiplication
 		 double[][] res;
 
 		 startTime = System.currentTimeMillis(); // Save the time stamp before
-//		 multiplication starts
 		 res = sequentialMultiplyMatrix(a, b);
 		 endTime = System.currentTimeMillis(); // Save the time stamp when
-//		 multiplication finishes
+
 		 totalTime = endTime - startTime; // Subtract for total runtime
 		 System.out.println("Sequential multiplication runtime: " + totalTime);
 
