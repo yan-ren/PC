@@ -29,10 +29,10 @@ public class MatrixTask {
 		startTime = System.currentTimeMillis();
 		Future<?> future = exec1.submit(mul);
 		future.get();
-		endTime = System.currentTimeMillis();
 
 		exec1.shutdown();
 		exec1.awaitTermination(1, TimeUnit.DAYS);
+		endTime = System.currentTimeMillis();
 
 		System.out.println("time: " + (endTime - startTime));
 
